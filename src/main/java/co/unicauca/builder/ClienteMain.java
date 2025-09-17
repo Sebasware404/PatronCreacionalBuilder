@@ -1,71 +1,71 @@
 package co.unicauca.builder;
-import java.util.Scanner;
-
 
 public class ClienteMain {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
+        // El director
+        ProjectDirector director = new ProjectDirector();
 
-		//el director
-		ProjectDirector director = new ProjectDirector();
-		//el builder concreto
-		ProjectBuilder research_projectbuilder = new ResearchProjectBuilder();
+        // ============= Modalidad de investigación (quemado) =============
+        ProjectBuilder research_projectbuilder = new ResearchProjectBuilder();
+        director.setProjectBuilder(research_projectbuilder);
 
-		director.setProjectBuilder(research_projectbuilder);
+        String[] objetivosInv = { "Investigar algoritmos de IA", "Publicar resultados en conferencia" };
 
-		//datos del proyecto
-		System.out.print("Ingrese el título del proyecto: ");
-        String titulo = sc.nextLine();
+        director.buildProject(
+                "Sistema inteligente de recomendación académica",
+                "Sebastián Caicedo",
+                "Ana Pérez", // se permiten hasta 2 estudiantes
+                "10/09/2025",
+                "Dr. Gómez",
+                "Dra. Ramírez", // codirector opcional
+                null,
+                "Desarrollar un sistema basado en IA para apoyar decisiones académicas",
+                objetivosInv);
 
-        System.out.print("Ingrese el nombre del estudiante 1: ");
-        String estudiante1 = sc.nextLine();
+        Project projectInv = director.getProject();
+        System.out.println("\nProyecto de investigación:");
+        System.out.println(projectInv);
 
+        // ============= Modalidad de práctica profesional (quemado) =============
+        ProjectBuilder profession_projectbuilder = new ProfessionProjectBuilder();
+        director.setProjectBuilder(profession_projectbuilder);
 
-        System.out.print("Ingrese el nombre del estudiante 2 (opcional): ");
-        String estudiante2 = sc.nextLine();
-        if (estudiante2.isEmpty()) {
-            estudiante2 = null; // manejar como nulo si no se proporciona
-        }
+        String[] objetivosProf = { "Aplicar conocimientos en un entorno real", "Optimizar procesos de la empresa" };
 
-		System.out.print("Ingrese la fecha de creación (dd/mm/yyyy): ");
-        String fecha = sc.nextLine();
+        director.buildProject(
+                "Sistema de gestión de inventario en prácticas",
+                "Laura Gómez", // solo un estudiante permitido
+                null,
+                "12/09/2025",
+                "Dr. Martínez",
+                null,
+                null,
+                "Aplicar conocimientos de Ingeniería en un entorno empresarial",
+                objetivosProf);
 
-		System.out.print("Ingrese el nombre del director: ");
-        String nameDirector = sc.nextLine();
+        Project projectProf = director.getProject();
+        System.out.println("\nProyecto de práctica profesional:");
+        System.out.println(projectProf);
 
-		System.out.print("Ingrese el nombre del codirector 1 (opcional): ");
-        String codirector1 = sc.nextLine();
-		String codirector2 = null;
+        // ============= Modalidad de plan coterminal (quemado) =============
+        ProjectBuilder coterminal_projectbuilder = new CoterminalPlanProjectBuilder();
+        director.setProjectBuilder(coterminal_projectbuilder);
 
-        if (codirector1.isEmpty()) {
-            codirector1 = null;
-        }else{
-			System.out.print("Ingrese el nombre del codirector 2 (opcional): ");
-        	codirector2 = sc.nextLine();
-			
-		}
+        String[] objetivosCoterminal = { "Profundizar en área de software", "Avanzar en créditos de maestría" };
 
-		System.out.print("Ingrese el objetivo general: ");
-        String objGeneral = sc.nextLine();
+        director.buildProject(
+                "Desarrollo de un módulo de analítica en plan coterminal",
+                "Andrés López",
+                null, // solo un estudiante
+                "15/09/2025",
+                "Dra. Fernández",
+                "Dr. Ramírez", // un codirector opcional
+                null,
+                "Consolidar conocimientos de pregrado y posgrado en un solo proyecto",
+                objetivosCoterminal);
 
-        System.out.print("Ingrese el número de objetivos específicos (maximo 4): ");
-        int n = sc.nextInt();
-        sc.nextLine(); // limpiar salto de línea
-
-        String[] objetivos = new String[n];
-        for (int i = 0; i < n; i++) {
-            System.out.print("Objetivo " + (i+1) + ": ");
-            objetivos[i] = sc.nextLine();
-        }
-
-		//construcción del proyecto
-		director.buildProject(titulo, estudiante1, estudiante2, fecha, nameDirector, codirector1, codirector2, objGeneral, objetivos);
-		//obtener el proyecto construido
-		Project project = director.getProject();
-		System.out.println("Proyecto de investigación:" + project);
-		
-		
-		sc.close();
-
-	}
+        Project projectCoterminal = director.getProject();
+        System.out.println("\nProyecto de plan coterminal:");
+        System.out.println(projectCoterminal);
+    }
 }
